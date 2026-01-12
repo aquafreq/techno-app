@@ -2,15 +2,15 @@ export default function Home() {
   return (
     <main style={{ padding: '2rem', minHeight: '100vh' }}>
       <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>
-        🎵 Techno App
+        🎵 Techno App Dani
       </h1>
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem', opacity: 0.8 }}>
         Search for techno events and artists
       </p>
-      
+
       <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-        <a 
-          href="/events" 
+        <a
+          href="/events"
           style={{
             padding: '1rem 2rem',
             background: '#1a1a1a',
@@ -22,8 +22,8 @@ export default function Home() {
         >
           Search Events
         </a>
-        <a 
-          href="/artists" 
+        <a
+          href="/artists"
           style={{
             padding: '1rem 2rem',
             background: '#1a1a1a',
