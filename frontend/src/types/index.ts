@@ -25,3 +25,15 @@ export interface Venue {
   latitude?: number;
   longitude?: number;
 }
+
+export interface Kitchen {
+  id: number;
+  url: string;
+  title: string;
+  description: string;
+}
+
+export interface NavItem {
+  href: string;
+  label: string;
+}

@@ -1,6 +1,8 @@
-# Techno App
+# Kitchen App
 
-A full-stack application for searching techno events and artists, built with Node.js (backend) and Next.js (frontend), both using TypeScript.
+A full-stack application for discovering kitchen designs and inspiration, built with Node.js (backend) and Next.js (frontend), both using TypeScript.
+
+<!-- Note: This app was originally built as a techno events app, but has been refactored to focus on kitchen designs. Techno-related code has been commented out for future reference. -->
 
 ## Project Structure
 
@@ -66,10 +68,11 @@ npm run build:frontend
 
 ## Features
 
-- 🔍 Search for techno events
-- 🎵 Search for artists
-- 📍 View where artists are playing
-- 🗺️ Event locations and venues
+- 🏠 Browse kitchen design gallery
+- 🎨 View animated kitchen showcases
+- 📸 Explore different kitchen styles
+- 💡 Get design inspiration and ideas
+- 📝 Contact form with validation
 
 ## Tech Stack
 

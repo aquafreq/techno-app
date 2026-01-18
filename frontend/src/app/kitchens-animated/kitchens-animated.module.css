@@ -1,0 +1,308 @@
+.container {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.header {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #cccccc;
+  opacity: 0.8;
+}
+
+.featuredSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+.featuredKitchen {
+  position: relative;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.featuredImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featuredOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding: 3rem 2rem 2rem;
+  color: #ffffff;
+}
+
+.featuredTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.featuredDescription {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.dot:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.dotActive {
+  background-color: #ffffff;
+  width: 24px;
+  border-radius: 6px;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cardImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  color: #ffffff;
+}
+
+.cardTitle {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* GSAP Animations Section */
+.gsapSection {
+  width: 100%;
+  padding: 4rem 2rem;
+  background-color: #0a0a0a;
+}
+
+.textAnimationSection {
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+  text-align: center;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.animatedText {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.6;
+  padding: 2rem;
+  word-wrap: break-word;
+}
+
+.imageTopSection {
+  max-width: 1200px;
+  margin: 0 auto 6rem;
+  text-align: center;
+}
+
+.imageTop {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  height: 500px;
+}
+
+.imageSideSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  min-height: 400px;
+}
+
+.imageLeft,
+.imageRight {
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  height: 400px;
+}
+
+.gsapImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .featuredKitchen {
+    height: 300px;
+  }
+
+  .featuredTitle {
+    font-size: 1.5rem;
+  }
+
+  .featuredDescription {
+    font-size: 1rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featuredSection {
+    padding: 1rem;
+  }
+
+  .animatedText {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+
+  .imageSideSection {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .gsapSection {
+    padding: 2rem 1rem;
+  }
+
+  .fallingText {
+    font-size: 2.5rem;
+  }
+
+  .zoomText {
+    font-size: 2rem;
+  }
+}
+
+/* Text Zoom In Section */
+.textZoomSection {
+  max-width: 1200px;
+  margin: 6rem auto;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.zoomText {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.4;
+  transform-origin: center;
+}
+
+/* Big Text with Falling Letters Section (before footer) */
+.textFallingSection {
+  max-width: 1200px;
+  margin: 6rem auto 4rem;
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallingText {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffffff;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.fallingText span {
+  display: inline-block;
+}
