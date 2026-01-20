@@ -211,10 +211,28 @@ function GSAPAnimationsSection(): JSX.Element {
   const textInitializedRef = useRef<boolean>(false)
   const textFallingInitializedRef = useRef<boolean>(false)
   const textZoomInitializedRef = useRef<boolean>(false)
+  const textScrollWordsRef = useRef<HTMLDivElement>(null)
+  const textScrollWordsInitializedRef = useRef<boolean>(false)
+  const scrollWordsArrayRef = useRef<HTMLSpanElement[]>([])
 
   useEffect(() => {
-    // Character-by-character text animation
-    if (textRef.current && !textInitializedRef.current) {
+    // Ensure we're in browser environment
+    if (typeof window === 'undefined') return
+
+    // Wait for page to be fully loaded
+    const initAnimations = () => {
+      // Prevent double initialization
+      if (textZoomInitializedRef.current && textFallingInitializedRef.current) {
+        console.log('⚠️ Animations already initialized, skipping...')
+        return
+      }
+      
+      console.log('🔵 initAnimations called')
+      console.log('🔵 textZoomRef.current:', textZoomRef.current)
+      console.log('🔵 textFallingRef.current:', textFallingRef.current)
+      
+      // Character-by-character text animation
+      if (textRef.current && !textInitializedRef.current) {
       const text = textRef.current
       const textContent = text.textContent || ''
       text.textContent = ''
@@ -230,128 +248,320 @@ function GSAPAnimationsSection(): JSX.Element {
         chars.push(span)
       })
 
-      textInitializedRef.current = true
+        textInitializedRef.current = true
 
-      ScrollTrigger.create({
-        trigger: textRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to(chars, {
-            opacity: 1,
-            duration: 0.05,
-            stagger: 0.03,
-            ease: 'none',
-          })
-        },
-      })
-    }
+        ScrollTrigger.create({
+          trigger: textRef.current,
+          start: 'top 80%',
+          onEnter: () => {
+            gsap.to(chars, {
+              opacity: 1,
+              duration: 0.05,
+              stagger: 0.03,
+              ease: 'none',
+            })
+          },
+        })
+      }
 
-    // Image from top animation
-    if (imageTopRef.current) {
-      gsap.set(imageTopRef.current, { y: -150, opacity: 0 })
+      // Image from top animation
+      if (imageTopRef.current) {
+        gsap.set(imageTopRef.current, { y: -150, opacity: 0 })
 
-      ScrollTrigger.create({
-        trigger: imageTopRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to(imageTopRef.current, {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power3.out',
-          })
-        },
-      })
-    }
+        ScrollTrigger.create({
+          trigger: imageTopRef.current,
+          start: 'top 80%',
+          onEnter: () => {
+            gsap.to(imageTopRef.current, {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'power3.out',
+            })
+          },
+        })
+      }
 
-    // Images from left and right (one below another)
-    if (imageLeftRef.current && imageRightRef.current) {
+      // Images from left and right (one below another)
+      if (imageLeftRef.current && imageRightRef.current) {
       gsap.set(imageLeftRef.current, { x: -300, opacity: 0 })
       gsap.set(imageRightRef.current, { x: 300, opacity: 0 })
 
-      ScrollTrigger.create({
-        trigger: imageLeftRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to(imageLeftRef.current, {
-            x: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power3.out',
-          })
-          gsap.to(imageRightRef.current, {
-            x: 0,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'power3.out',
-            delay: 0.3,
-          })
-        },
+        ScrollTrigger.create({
+          trigger: imageLeftRef.current,
+          start: 'top 85%',
+          once: false,
+          onEnter: () => {
+            if (imageLeftRef.current && imageRightRef.current) {
+              gsap.to(imageLeftRef.current, {
+                x: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power3.out',
+              })
+              gsap.to(imageRightRef.current, {
+                x: 0,
+                opacity: 1,
+                duration: 1.2,
+                ease: 'power3.out',
+                delay: 0.3,
+              })
+            }
+          },
+          onLeaveBack: () => {
+            if (imageLeftRef.current && imageRightRef.current) {
+              gsap.set(imageLeftRef.current, { x: -300, opacity: 0 })
+              gsap.set(imageRightRef.current, { x: 300, opacity: 0 })
+            }
+          },
+        })
+      }
+
+      // Text with falling letters animation (before footer)
+      if (textFallingRef.current && !textFallingInitializedRef.current) {
+        console.log('🟡 Setting up falling letters animation')
+        const text = textFallingRef.current
+        const textContent = text.textContent || ''
+        text.textContent = ''
+
+        // Split text into words and wrap each word in a span
+        const words: HTMLSpanElement[] = []
+        const wordsArray = textContent.split(/\s+/).filter(word => word.length > 0)
+        
+        wordsArray.forEach((word, wordIndex) => {
+          const wordSpan = document.createElement('span')
+          wordSpan.style.display = 'inline-block'
+          wordSpan.style.opacity = '0'
+          wordSpan.style.transform = 'translateY(-100px)'
+          wordSpan.style.whiteSpace = 'nowrap' // Prevent word breaking
+          wordSpan.textContent = word
+          
+          // Add space after word (except last word)
+          if (wordIndex < wordsArray.length - 1) {
+            wordSpan.textContent += '\u00A0' // Non-breaking space
+          }
+          
+          text.appendChild(wordSpan)
+          words.push(wordSpan)
+        })
+
+        textFallingInitializedRef.current = true
+
+        const fallingTrigger = ScrollTrigger.create({
+          trigger: textFallingRef.current,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          once: false,
+          onEnter: () => {
+            console.log('🟡 Falling words onEnter triggered!')
+            gsap.to(words, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.1, // Stagger between words (slightly longer than letters)
+              ease: 'power2.out',
+            })
+          },
+          onEnterBack: () => {
+            gsap.to(words, {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.1,
+              ease: 'power2.out',
+            })
+          },
+          onLeave: () => {
+            words.forEach((word) => {
+              gsap.set(word, { opacity: 0, y: -100 })
+            })
+          },
+          onLeaveBack: () => {
+            words.forEach((word) => {
+              gsap.set(word, { opacity: 0, y: -100 })
+            })
+          },
+        })
+
+        textFallingInitializedRef.current = true
+        console.log('🟡 Falling words trigger created:', {
+          start: fallingTrigger.start,
+          end: fallingTrigger.end,
+          wordsCount: words.length
+        })
+      } else {
+        console.log('🔴 Falling text element not found or already initialized')
+      }
+
+      // Text zoom in animation
+      if (textZoomRef.current && !textZoomInitializedRef.current) {
+        const zoomElement = textZoomRef.current
+        console.log('🟢 Setting up zoom text animation')
+        
+        // Ensure initial state is hidden
+        gsap.set(zoomElement, { scale: 0, opacity: 0 })
+        console.log('🟢 Initial state set - opacity:', window.getComputedStyle(zoomElement).opacity)
+
+        const trigger = ScrollTrigger.create({
+          trigger: zoomElement,
+          start: 'top 80%', // Trigger when element is 80% from top of viewport
+          end: 'bottom 20%',
+          once: false,
+          onEnter: () => {
+            console.log('🟢 Zoom text onEnter triggered!')
+            console.log('🟢 Before animation - opacity:', window.getComputedStyle(zoomElement).opacity, 'transform:', window.getComputedStyle(zoomElement).transform)
+            gsap.to(zoomElement, {
+              scale: 1,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'back.out(1.7)',
+              onComplete: () => {
+                console.log('🟢 Animation complete - opacity:', window.getComputedStyle(zoomElement).opacity, 'transform:', window.getComputedStyle(zoomElement).transform)
+              }
+            })
+          },
+          onUpdate: (self) => {
+            // Debug: log scroll progress
+            if (self.progress > 0 && self.progress < 0.1) {
+              console.log('🟢 Zoom text scroll progress:', self.progress)
+            }
+          },
+          onEnterBack: () => {
+            gsap.to(zoomElement, {
+              scale: 1,
+              opacity: 1,
+              duration: 1.2,
+              ease: 'back.out(1.7)',
+            })
+          },
+          onLeave: () => {
+            gsap.set(zoomElement, { scale: 0, opacity: 0 })
+          },
+          onLeaveBack: () => {
+            gsap.set(zoomElement, { scale: 0, opacity: 0 })
+          },
+        })
+
+        textZoomInitializedRef.current = true
+        console.log('🟢 Zoom text trigger created:', {
+          start: trigger.start,
+          end: trigger.end,
+          element: zoomElement
+        })
+      } else {
+        console.log('🔴 Zoom text element not found or already initialized')
+      }
+
+      // Scroll-triggered letter-by-letter animation (fast animation when section enters viewport)
+      if (textScrollWordsRef.current && !textScrollWordsInitializedRef.current) {
+        console.log('🔵 Setting up scroll-triggered letters animation')
+        const textElement = textScrollWordsRef.current
+        const textContent = textElement.textContent || ''
+        textElement.textContent = ''
+
+        // Split text into characters (letters) and wrap each in a span
+        const chars: HTMLSpanElement[] = []
+        textContent.split('').forEach((char) => {
+          const span = document.createElement('span')
+          span.textContent = char === ' ' ? '\u00A0' : char
+          span.style.display = 'inline-block'
+          span.style.opacity = '0'
+          span.style.transform = 'translateY(-30px)'
+          textElement.appendChild(span)
+          chars.push(span)
+        })
+
+        scrollWordsArrayRef.current = chars
+        textScrollWordsInitializedRef.current = true
+
+        ScrollTrigger.create({
+          trigger: textElement,
+          start: 'top 50%', // Trigger when element is at 50% of viewport
+          once: false, // Allow animation to trigger again if scrolled back
+          onEnter: () => {
+            console.log('🔵 Letters animation triggered!')
+            // Animate all letters quickly with stagger
+            gsap.to(chars, {
+              opacity: 1,
+              y: 0,
+              duration: 0.3, // Fast animation
+              stagger: 0.02, // Small delay between each letter (20ms)
+              ease: 'power2.out',
+            })
+          },
+          onEnterBack: () => {
+            // When scrolling back up, animate again
+            gsap.to(chars, {
+              opacity: 1,
+              y: 0,
+              duration: 0.3,
+              stagger: 0.02,
+              ease: 'power2.out',
+            })
+          },
+          onLeave: () => {
+            // Hide letters when scrolling past
+            chars.forEach((char) => {
+              gsap.set(char, { opacity: 0, y: -30 })
+            })
+          },
+          onLeaveBack: () => {
+            // Hide letters when scrolling back up past the section
+            chars.forEach((char) => {
+              gsap.set(char, { opacity: 0, y: -30 })
+            })
+          },
+        })
+
+        console.log('🔵 Scroll-triggered letters animation created:', {
+          charsCount: chars.length,
+        })
+      } else {
+        console.log('🔴 Scroll words element not found or already initialized')
+      }
+
+      // Refresh ScrollTrigger after all animations are set up
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+        console.log('✅ ScrollTrigger refreshed')
       })
     }
 
-    // Text with falling letters animation (before footer)
-    if (textFallingRef.current && !textFallingInitializedRef.current) {
-      const text = textFallingRef.current
-      const textContent = text.textContent || ''
-      text.textContent = ''
-
-      // Split text into characters and wrap each in a span
-      const chars: HTMLSpanElement[] = []
-      textContent.split('').forEach((char) => {
-        const span = document.createElement('span')
-        span.textContent = char === ' ' ? '\u00A0' : char
-        span.style.display = 'inline-block'
-        span.style.opacity = '0'
-        span.style.transform = 'translateY(-100px)'
-        text.appendChild(span)
-        chars.push(span)
-      })
-
-      textFallingInitializedRef.current = true
-
-      ScrollTrigger.create({
-        trigger: textFallingRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to(chars, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.05,
-            ease: 'power2.out',
-          })
-        },
-      })
+    // Initialize animations - wait for page load or run immediately if already loaded
+    // Use a small delay to ensure React has finished rendering
+    const initializeWithDelay = () => {
+      setTimeout(() => {
+        if (document.readyState === 'complete') {
+          console.log('📄 Document ready, initializing...')
+          initAnimations()
+        } else {
+          console.log('⏳ Waiting for load event...')
+          window.addEventListener('load', () => {
+            console.log('📄 Load event fired, initializing...')
+            initAnimations()
+          }, { once: true })
+        }
+      }, 100)
     }
 
-    // Text zoom in animation
-    if (textZoomRef.current && !textZoomInitializedRef.current) {
-      gsap.set(textZoomRef.current, { scale: 0, opacity: 0 })
+    initializeWithDelay()
 
-      ScrollTrigger.create({
-        trigger: textZoomRef.current,
-        start: 'top 80%',
-        onEnter: () => {
-          gsap.to(textZoomRef.current, {
-            scale: 1,
-            opacity: 1,
-            duration: 1.2,
-            ease: 'back.out(1.7)',
-          })
-        },
-      })
-
-      textZoomInitializedRef.current = true
+    // Also refresh on resize
+    const handleResize = () => {
+      ScrollTrigger.refresh()
     }
+    window.addEventListener('resize', handleResize)
 
     return () => {
+      window.removeEventListener('load', initAnimations)
+      window.removeEventListener('resize', handleResize)
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.trigger === textRef.current || 
             trigger.vars.trigger === imageTopRef.current ||
             trigger.vars.trigger === imageLeftRef.current ||
             trigger.vars.trigger === textFallingRef.current ||
-            trigger.vars.trigger === textZoomRef.current) {
+            trigger.vars.trigger === textZoomRef.current ||
+            trigger.vars.trigger === textScrollWordsRef.current) {
           trigger.kill()
         }
       })
@@ -407,6 +617,13 @@ function GSAPAnimationsSection(): JSX.Element {
       <div className={styles.textFallingSection}>
         <div ref={textFallingRef} className={styles.fallingText}>
           Вашата мечтана кухня очаква вас
+        </div>
+      </div>
+
+      {/* Scroll-Driven Words Animation (scrub animation) */}
+      <div className={styles.textScrollWordsSection}>
+        <div ref={textScrollWordsRef} className={styles.scrollWordsText}>
+          Всяка кухня разказва уникална история за стил и функционалност
         </div>
       </div>
     </div>

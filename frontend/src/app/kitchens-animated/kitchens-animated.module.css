@@ -281,6 +281,7 @@
   color: #ffffff;
   line-height: 1.4;
   transform-origin: center;
+  /* Initial state controlled by GSAP, not CSS */
 }
 
 /* Big Text with Falling Letters Section (before footer) */
@@ -305,4 +306,30 @@
 
 .fallingText span {
   display: inline-block;
+}
+
+/* Scroll-Driven Words Animation Section */
+.textScrollWordsSection {
+  max-width: 1200px;
+  margin: 4rem auto;
+  text-align: center;
+  padding: 3rem 2rem;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollWordsText {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.scrollWordsText span {
+  display: inline-block;
+  transition: opacity 0.1s ease, transform 0.1s ease;
 }
