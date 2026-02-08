@@ -10,7 +10,7 @@ export default function Footer(): JSX.Element {
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.section}>
-            <h3 className={styles.title}>Kitchen App</h3>
+            <h3 className={styles.title}>🏠 Veni&#39;s Kitchen</h3>
             <p className={styles.description}>
               Вашата крайна дестинация за вдъхновение от дизайн на кухни.
             </p>
@@ -24,18 +24,6 @@ export default function Footer(): JSX.Element {
                   Начало
                 </Link>
               </li>
-              {/* Techno-related links commented out - keeping for future reference
-              <li>
-                <Link href="/events" className={styles.link}>
-                  Events
-                </Link>
-              </li>
-              <li>
-                <Link href="/artists" className={styles.link}>
-                  Artists
-                </Link>
-              </li>
-              */}
               <li>
                 <Link href="/kitchens" className={styles.link}>
                   Кухни
@@ -101,7 +89,7 @@ export default function Footer(): JSX.Element {
 
         <div className={styles.bottom}>
           <p className={styles.copyright}>
-            © {currentYear} Kitchen App. Всички права запазени.
+            © {currentYear}  🏠 Veni&#39;s Kitchen. Всички права запазени.
           </p>
         </div>
       </div>

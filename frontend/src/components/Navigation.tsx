@@ -20,7 +20,7 @@ export default function Navigation(): JSX.Element {
     <nav className={styles.nav}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          🏠 Veni&#39;s Kitchens
+          🏠 Veni&#39;s Kitchen
         </Link>
         <ul className={styles.menu}>
           {navItems.map((item: NavItem) => (
