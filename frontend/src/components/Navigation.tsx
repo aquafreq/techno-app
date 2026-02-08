@@ -10,9 +10,6 @@ export default function Navigation(): JSX.Element {
 
   const navItems: NavItem[] = [
     { href: '/', label: 'Начало' },
-    // Techno-related navigation commented out - keeping for future reference
-    // { href: '/events', label: 'Events' },
-    // { href: '/artists', label: 'Artists' },
     { href: '/kitchens', label: 'Кухни' },
     { href: '/kitchens-animated', label: 'Анимирана галерия' },
     { href: '/about', label: 'За нас' },
@@ -23,7 +20,7 @@ export default function Navigation(): JSX.Element {
     <nav className={styles.nav}>
       <div className={styles.container}>
         <Link href="/" className={styles.logo}>
-          🏠 Kitchen App
+          🏠 Veni's Kitchens
         </Link>
         <ul className={styles.menu}>
           {navItems.map((item: NavItem) => (

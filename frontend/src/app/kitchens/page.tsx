@@ -110,3 +110,4 @@ export default function KitchensPage(): JSX.Element {
     </div>
   )
 }
+

@@ -11,8 +11,10 @@
   margin: 0 auto;
   padding: 1rem 2rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo {
@@ -21,6 +23,8 @@
   color: #ffffff;
   text-decoration: none;
   transition: opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo:hover {
@@ -29,10 +33,18 @@
 
 .menu {
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
   gap: 2rem;
   margin: 0;
   padding: 0;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menu li {
+  display: flex;
+  align-items: center;
 }
 
 .link {
@@ -43,6 +55,7 @@
   border-radius: 6px;
   transition: all 0.2s;
   position: relative;
+  white-space: nowrap;
 }
 
 .link:hover {
@@ -55,17 +68,6 @@
   background-color: #1a1a1a;
 }
 
-.link.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  background-color: #ffffff;
-  border-radius: 50%;
-}
 
 @media (max-width: 768px) {
   .container {

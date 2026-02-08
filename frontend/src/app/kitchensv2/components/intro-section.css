@@ -1,0 +1,24 @@
+.intro-section {
+    padding: 120px 64px;
+    background: #111111;
+}
+
+.intro-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 80px;
+}
+
+.intro-item h3 {
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+}
+
+.intro-item p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+}
